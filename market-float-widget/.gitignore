@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# Local dependency target (sandbox-friendly installs)
+libs/
+
+# PyInstaller artifacts
+build/
+dist/
+
+# Local user config (never commit personal watchlists / alarms)
+.crypto_float_config.json
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+.screenshots/

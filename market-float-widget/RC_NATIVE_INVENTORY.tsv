@@ -1,0 +1,102 @@
+entry	PE fixed file version	SHA-256	Qt wheel match
+PyQt5/Qt5/bin/MSVCP140.dll	14.26.28720.3	88f55d86b50b0a7e55e71ad2d8f7552146ba26e927230daf2e26ad3a971973c5	outside Qt wheel
+PyQt5/Qt5/bin/MSVCP140_1.dll	14.26.28720.3	446c48c1224c289bd3080087fe15d6759416d64f4136addf30086abd5415d83f	outside Qt wheel
+PyQt5/Qt5/bin/Qt5Core.dll	5.15.2.0	8d2ff4ce9096ddccc4f4cd62c2e41fc854cfd1b0d6e8d296645a7f5fd4ae565a	exact
+PyQt5/Qt5/bin/Qt5DBus.dll	5.15.2.0	1aa70b106a10c86946e23caa9fc752dc16e29fbe803bba1f1ab30d1c63ee852a	exact
+PyQt5/Qt5/bin/Qt5Gui.dll	5.15.2.0	5e7d2d41b8b92a880e83b8cc0ca173f5da61218604186196787ee1600956be1e	exact
+PyQt5/Qt5/bin/Qt5Network.dll	5.15.2.0	4ef341ae9302e793878020f0740b09b0f31cb380408a697f75c69fdbd20fc7a1	exact
+PyQt5/Qt5/bin/Qt5Qml.dll	5.15.2.0	30035484c81590976627f8face9507caa8581a7dc7630cccf6a8d6de65cab707	exact
+PyQt5/Qt5/bin/Qt5QmlModels.dll	5.15.2.0	51e4e5a5e91f78774c44f69b599fae4735277ef2918f7061778615cb5c4f6e81	exact
+PyQt5/Qt5/bin/Qt5Quick.dll	5.15.2.0	c81ad3c1111544064b1830c6f1aef3c1fd13b401546ab3b852d697c0f4d854b3	exact
+PyQt5/Qt5/bin/Qt5Svg.dll	5.15.2.0	7348cfc6444438b8845fb3f59381227325d40ca2187d463e82fc7b8e93e38db5	exact
+PyQt5/Qt5/bin/Qt5WebSockets.dll	5.15.2.0	6b56f77da6f17880a42d2f9d2ec8b426248f7ab2196a0f55d37ade39e3878bc6	exact
+PyQt5/Qt5/bin/Qt5Widgets.dll	5.15.2.0	3788c669d4b645e5a576de9fc77fca776bf516d43c89143dc2ca28291ba14358	exact
+PyQt5/Qt5/bin/VCRUNTIME140.dll	14.26.28720.3	5e197a086b6a7711baa09afe4ea7c68f0e777b2ff33f1df25a21f375b7d9693a	outside Qt wheel
+PyQt5/Qt5/bin/VCRUNTIME140_1.dll	14.26.28720.3	1f0f5f2ce671e0f68cf96176721df0e5e6f527c8ca9cfa98aa875b5a3816d460	outside Qt wheel
+PyQt5/Qt5/bin/d3dcompiler_47.dll	6.3.9600.16384	e994847e01a6f1e4cbdc5a864616ac262f67ee4f14db194984661a8d927ab7f4	exact
+PyQt5/Qt5/bin/libEGL.dll	5.15.2.0	32092de077fd57b6ef355705ec46c6d21f6d72fbe3d3a5dd628f2a29185a96fa	exact
+PyQt5/Qt5/bin/libGLESv2.dll	5.15.2.0	50fad5605b3d57627848b3b84a744dfb6a045609b8236b04124f2234676758d8	exact
+PyQt5/Qt5/bin/opengl32sw.dll	Not Verified	963641a718f9cae2705d5299eae9b7444e84e72ab3bef96a691510dd05fa1da4	exact
+PyQt5/Qt5/plugins/generic/qtuiotouchplugin.dll	5.15.2.0	a9bffb0f3cd69cd775c328c916e46440fe80d99119faebc350c7ec51e3e57c41	exact
+PyQt5/Qt5/plugins/iconengines/qsvgicon.dll	5.15.2.0	42dde60befcf1d9f96b8366a9988626b97d7d0d829ebea32f756d6ecd9ea99a8	exact
+PyQt5/Qt5/plugins/imageformats/qgif.dll	5.15.2.0	36174dd4c5f37c5f065c7a26e0ac65c4c3a41fdc0416882af856a23a5d03bb9d	exact
+PyQt5/Qt5/plugins/imageformats/qicns.dll	5.15.2.0	f4a229a082d16f80016f366156a2b951550f1e9df6d4177323bbedd92a429909	exact
+PyQt5/Qt5/plugins/imageformats/qico.dll	5.15.2.0	1982a635db9652304131c9c6ff9a693e70241600d2ef22b354962aa37997de0b	exact
+PyQt5/Qt5/plugins/imageformats/qjpeg.dll	5.15.2.0	fb4e980cb5fafa8a4cd4239329aed93f7c32ed939c94b61fb2df657f3c6ad158	exact
+PyQt5/Qt5/plugins/imageformats/qsvg.dll	5.15.2.0	b3498f0a10ac4cb42cf7213db4944a34594ff36c78c50a0f249c9085d1b1ff39	exact
+PyQt5/Qt5/plugins/imageformats/qtga.dll	5.15.2.0	5b641dec81aec1cf7ac0cce9fc067bb642fbd32da138a36e3bdac3bb5b36c37a	exact
+PyQt5/Qt5/plugins/imageformats/qtiff.dll	5.15.2.0	825174429ced6b3dab18115dbc6c9da07bf5248c86ec1bd5c0dcaeca93b4c22d	exact
+PyQt5/Qt5/plugins/imageformats/qwbmp.dll	5.15.2.0	0f05969fb926a62a338782b32446ea3e28e4bfbffc0dbd25ed303fab3404abac	exact
+PyQt5/Qt5/plugins/imageformats/qwebp.dll	5.15.2.0	6e37acd0d357871f92b7fde7206c904c734caa02f94544df646957df8c4987af	exact
+PyQt5/Qt5/plugins/platforms/qminimal.dll	5.15.2.0	05d1e7364dd2a672df3ca44dd6fd85bed3d3dc239dcfe29bfb464f10b4daa628	exact
+PyQt5/Qt5/plugins/platforms/qoffscreen.dll	5.15.2.0	54097626faae718a4bc8e436c85b4ded8f8fb7051b2b9563a29aee4ed5c32b7b	exact
+PyQt5/Qt5/plugins/platforms/qwebgl.dll	5.15.2.0	9c3b2fa2383eeed92bb5810bdcf893ae30fa654a30b453ab2e49a95e1ccf1631	exact
+PyQt5/Qt5/plugins/platforms/qwindows.dll	5.15.2.0	3333ba244c97264e3bd19db5953efa80a6e47aaced9d337ac3287ec718162b85	exact
+PyQt5/Qt5/plugins/platformthemes/qxdgdesktopportal.dll	5.15.2.0	e23fbc1bec6ceedfa9fd305606a460d9cac5d43a66d19c0de36e27632fddd952	exact
+PyQt5/Qt5/plugins/styles/qwindowsvistastyle.dll	5.15.2.0	d9b21182952682fe7ba63af1df24e23ace592c35b3f31eceef9f0eabeb5881b9	exact
+PyQt5/QtCore.pyd	Not Verified	d6e45fd8c3b3f93f52c4d1b6f9e3ee220454a73f80f65f3d70504bd55415ea37	outside Qt wheel
+PyQt5/QtGui.pyd	Not Verified	a9408e3b15ff3030f0e9acb3429000d253d3bb7206f750091a7130325f6d0d72	outside Qt wheel
+PyQt5/QtWidgets.pyd	Not Verified	a1e97a2ab434c6ae5e56491c60172e59cdcce42960734e8bdf5d851b79361071	outside Qt wheel
+PyQt5/sip.cp312-win_amd64.pyd	Not Verified	faec6e39c4cdabfd58ba37483da35f9a4176afca39742279902a7be28c0f9291	outside Qt wheel
+VCRUNTIME140.dll	14.34.31938.0	a8f950b4357ec12cfccddc9094cca56a3d5244b95e09ea6e9a746489f2d58736	outside Qt wheel
+VCRUNTIME140_1.dll	14.34.31938.0	e4b533a94e02c574780e4b333fcf0889f65ed00d39e32c0fbbda2116f185873f	outside Qt wheel
+_bz2.pyd	3.12.150.1013	02d772c03704fe243c8de2672c210a5804d075c1f75e738d6130a173d08dfcde	outside Qt wheel
+_ctypes.pyd	3.12.150.1013	bc3b83d2dc9e2f0e6386ed952384c6cf48f6eed51129a50dfd5ef6cbbc0a8fb3	outside Qt wheel
+_decimal.pyd	3.12.150.1013	a28c543976aa4b6d37da6f94a280d72124b429f458d0d57b7dbcf71b4bea8f73	outside Qt wheel
+_hashlib.pyd	3.12.150.1013	e47e76d70d508b62924fe480f30e615b12fdd7745c0aac68a2cddabd07b692ae	outside Qt wheel
+_lzma.pyd	3.12.150.1013	34130d8abe27586ee315262d69af4e27429b7eab1f3131ea375c2bb62cf094be	outside Qt wheel
+_multiprocessing.pyd	3.12.150.1013	fb69005b972dc3703f9ef42e8e0fddf8c835cb91f57ef9b6c66bbdf978c00a8c	outside Qt wheel
+_queue.pyd	3.12.150.1013	2ad02d49691a629f038f48fcdee46a07c4fcc2cb0620086e7b09ac11915ae6b7	outside Qt wheel
+_socket.pyd	3.12.150.1013	b38e66e6ee413e5955ef03d619cadd40fca8be035b43093d2342b6f3739e883e	outside Qt wheel
+_ssl.pyd	3.12.150.1013	a4ce52a9e0daddbbe7a539d1a7eda787494f2173ddcc92a3faf43b7cf597452b	outside Qt wheel
+api-ms-win-core-console-l1-1-0.dll	10.0.26100.4654	015bd08815c7b934a8952c3a7578e9ce59f21136e8a880d42bbd414bec2c6058	outside Qt wheel
+api-ms-win-core-datetime-l1-1-0.dll	10.0.26100.4654	5534812cdbdae94ba45cb216e5eb9af686b853948df54365103555abbbaf9d9a	outside Qt wheel
+api-ms-win-core-debug-l1-1-0.dll	10.0.26100.4654	837d2b1b2cd03e03fc6ccb050698b6b5763af17c201304872342a5eae9e0a2d2	outside Qt wheel
+api-ms-win-core-errorhandling-l1-1-0.dll	10.0.26100.4654	de43b165f568c276c00e95acd454e3092f352a18e95874595f4f4658c06d2ec7	outside Qt wheel
+api-ms-win-core-fibers-l1-1-0.dll	10.0.26100.4654	3cebc45bf479ad74cfabf2c6bfd4994d7ad639ed1221025981d19cedf9ce0416	outside Qt wheel
+api-ms-win-core-fibers-l1-1-1.dll	10.0.26100.4654	5ef70308bcca628ce6b0e2856b15b1c7ae340c3f9bbbc4c1071d8c191a34a5c3	outside Qt wheel
+api-ms-win-core-file-l1-1-0.dll	10.0.26100.4654	250ac829f2617bcac1c6e5b8c4f630462e20765863ba573526a3e11bbfb94a9a	outside Qt wheel
+api-ms-win-core-file-l1-2-0.dll	10.0.26100.4654	ae14079a114733f60ce87b92cba42acd8083c2cd67594e53bc37dc0b97a4b465	outside Qt wheel
+api-ms-win-core-file-l2-1-0.dll	10.0.26100.4654	914bf26a298713119477ea0a8e7bd43171b91344ebe24fb47ad77c49686e3d87	outside Qt wheel
+api-ms-win-core-handle-l1-1-0.dll	10.0.26100.4654	ab5489955e371b15f77906c08ec3c7affe2c7a46a08c514ca628768b4478974b	outside Qt wheel
+api-ms-win-core-heap-l1-1-0.dll	10.0.26100.4654	c70f9644d8377fa39c5b71f2e9734c1400d7598904fdeb772e8502099982dcb7	outside Qt wheel
+api-ms-win-core-interlocked-l1-1-0.dll	10.0.26100.4654	f8129710188e407bb0e6f46d30aeba277d67b947ece5fe09e883fde2323f3ae6	outside Qt wheel
+api-ms-win-core-kernel32-legacy-l1-1-1.dll	10.0.26100.4654	5200b16cb2ddc61cfc07373a9a84aa85a3ab50806ca96c879c883275832944c1	outside Qt wheel
+api-ms-win-core-libraryloader-l1-1-0.dll	10.0.26100.4654	48786fb88b001dcd1f63acea903d3ca9cc0b3060d5a325e3f2f3cbc3bfd53166	outside Qt wheel
+api-ms-win-core-localization-l1-2-0.dll	10.0.26100.4654	9ec3898f7eba91faa28b51616c211a2689e3a13aeef8de6e13cb674e49d689eb	outside Qt wheel
+api-ms-win-core-memory-l1-1-0.dll	10.0.26100.4654	3a6cbc524c99e1cd80d5368f5601402a37ad602528b1ab628093573ef638eb3b	outside Qt wheel
+api-ms-win-core-namedpipe-l1-1-0.dll	10.0.26100.4654	97145ef89c44949fcf0f04ac834a8bc7d687ef49ee73ae9fc32f3c11136b7201	outside Qt wheel
+api-ms-win-core-processenvironment-l1-1-0.dll	10.0.26100.4654	8bc7c10b1851aea644e9c9f381cdb935e091fee6b0be3d3aedc6fffaac96adb7	outside Qt wheel
+api-ms-win-core-processthreads-l1-1-0.dll	10.0.26100.4654	d8030b777617c71f0f94564607699dbf7561487d779db9756aed378c5675213f	outside Qt wheel
+api-ms-win-core-processthreads-l1-1-1.dll	10.0.26100.4654	f5e676713340f73a03a3d41a6ec9883b431da7d16c7f07bd0a920fb80e6c0753	outside Qt wheel
+api-ms-win-core-profile-l1-1-0.dll	10.0.26100.4654	f023d47e44d3eea6b0743580f57e8c6ba81e79d5ebfa7da26250076c647b980e	outside Qt wheel
+api-ms-win-core-rtlsupport-l1-1-0.dll	10.0.26100.4654	9746d8930704153578a628c010638a5f818ffe5a927e25591b108e256dc6afca	outside Qt wheel
+api-ms-win-core-string-l1-1-0.dll	10.0.26100.4654	7c53ae24c982d16ffd1bf7f918d115b11b7f30e57bc7feaa18cb9781e4abb926	outside Qt wheel
+api-ms-win-core-synch-l1-1-0.dll	10.0.26100.4654	56d9d62ca5dba79a6581b8d574a7d8b2a64a5ecb71e47dcf06ed0285708b1859	outside Qt wheel
+api-ms-win-core-synch-l1-2-0.dll	10.0.26100.4654	f6482bbec5612c39ecb4822787a333f2b7570f7a5f922a4059be41ba957bb372	outside Qt wheel
+api-ms-win-core-sysinfo-l1-1-0.dll	10.0.26100.4654	272d02765fdd3582618236c2d309abba069642f9bc1062ede069d0c144e17007	outside Qt wheel
+api-ms-win-core-sysinfo-l1-2-0.dll	10.0.26100.4654	8a0900788859d0eb51c2f48f50cc6ed376a120b518100fa20e11d7702ccde260	outside Qt wheel
+api-ms-win-core-timezone-l1-1-0.dll	10.0.26100.4654	ff35de6c03812b332e140f17dade25c5dd4775156da9eeb1eaae3fddd27236ec	outside Qt wheel
+api-ms-win-core-util-l1-1-0.dll	10.0.26100.4654	191ef3e98641a57296f19d572d8eb62489470ff1ef6030d136af170c2f835173	outside Qt wheel
+api-ms-win-crt-conio-l1-1-0.dll	10.0.26100.4654	54ee5ec719a051496ff60aa00dbeaa94b9a7d2cdac27fe9b7317f1a666b6a2aa	outside Qt wheel
+api-ms-win-crt-convert-l1-1-0.dll	10.0.26100.4654	8b94662429171019fcd63c70bbf2095a075170599704a5e7dcdbe3da13f3a429	outside Qt wheel
+api-ms-win-crt-environment-l1-1-0.dll	10.0.26100.4654	39e5929593709e8af3bc9e0a75ec1155778d6f4a247f4cdfc58928ad6db88434	outside Qt wheel
+api-ms-win-crt-filesystem-l1-1-0.dll	10.0.26100.4654	5a8ecebac32edf4e1f3c5c6c1c8ea1a1add6cda4f9c9cb26f752fb295bea6865	outside Qt wheel
+api-ms-win-crt-heap-l1-1-0.dll	10.0.26100.4654	c71080cbcb43bf1f8f3e391deb12a582eb0abefc80946f340675a2c616e4feb4	outside Qt wheel
+api-ms-win-crt-locale-l1-1-0.dll	10.0.26100.4654	6c68648e524187e03c4ad9aaa4a99113c6ee9f29fb39cc0ed93f951975138e63	outside Qt wheel
+api-ms-win-crt-math-l1-1-0.dll	10.0.26100.4654	d4fbcccbe29371cbce431e43b2eb4f7ba9a6f04a3d740a071f02457a505e9dc8	outside Qt wheel
+api-ms-win-crt-process-l1-1-0.dll	10.0.26100.4654	47c1935942e3ac0812e4dcf18c0e265e565f0194a3349111c299712f5565f7ac	outside Qt wheel
+api-ms-win-crt-runtime-l1-1-0.dll	10.0.26100.4654	72adc1b3677e0814d9c4ebf0964000e84bb2acf67336c8963061665e44f78029	outside Qt wheel
+api-ms-win-crt-stdio-l1-1-0.dll	10.0.26100.4654	900afc3989673c9bb1a687ed38c192f46db9e6ba6d11a668898a539e7fc23798	outside Qt wheel
+api-ms-win-crt-string-l1-1-0.dll	10.0.26100.4654	fcf12466cc12fd3b73611fc0763a5a1f9d44e90349513c34a0c83b0f36421793	outside Qt wheel
+api-ms-win-crt-time-l1-1-0.dll	10.0.26100.4654	886e57c4a6adb299b38f02945369f590a67da4e79a798359fc60aaa067212d7c	outside Qt wheel
+api-ms-win-crt-utility-l1-1-0.dll	10.0.26100.4654	5f8f26b216ade615b67a41f6fbbb910972fc6153315a65bb8f09912be50215b1	outside Qt wheel
+libcrypto-3.dll	3.0.11.0	2a234b5aa20c3faecf725bbb54fb33f3d94543f78fa7045408e905593e49960a	outside Qt wheel
+libffi-8.dll	Not Verified	eff52743773eb550fcc6ce3efc37c85724502233b6b002a35496d828bd7b280a	outside Qt wheel
+libssl-3.dll	3.0.11.0	41ad1a04ca27a7959579e87fbbda87c93099616a64a0e66260c983381c5570d1	outside Qt wheel
+pyexpat.pyd	3.12.150.1013	e1d56ffbf5e5fab481d7a14691481b8ff5d2f4c6bf5d1a4664c832756c5942fe	outside Qt wheel
+python3.dll	3.12.150.1013	1e9224ba7190b6301ef47befa8e383d0c55700255d04a36f7dac88ea9573f2fb	outside Qt wheel
+python312.dll	3.12.150.1013	e7890e38256f04ee0b55ac5276bbf3ac61392c3a3ce150bb5497b709803e17ce	outside Qt wheel
+select.pyd	3.12.150.1013	bc71fbdfd1441d62dd86d33ff41b35dc3cc34875f625d885c58c8dc000064dab	outside Qt wheel
+ucrtbase.dll	10.0.26100.4654	3239227d27667ba20d10a880751924e5719de0078f9fce232d149d383f7681f6	outside Qt wheel
+unicodedata.pyd	3.12.150.1013	2480a78815f619a631210e577e733c9bafecb7f608042e979423c5850ee390ff	outside Qt wheel
