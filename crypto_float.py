@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-加密货币实时行情浮窗（多交易所版）
+Market Float Widget（多交易所现货／永续实验版）
 - 桌面置顶无边框浮窗，可拖动、边框可拖拽缩放
 - 多交易所：币安 / 欧易(OKX) / Bitget，WebSocket 优先、连不上自动降级 REST 轮询
 - 添加自选：先选交易所，再搜标的；默认 BTC/ETH/SOL 读币安
@@ -24,19 +24,22 @@ from concurrent.futures import ThreadPoolExecutor
 import urllib.request
 from urllib.parse import urlsplit, unquote
 
-from PyQt5.QtWidgets import (
+from markets import discover, search, Instrument, instrument_label
+from market_runtime import install
+
+from PySide6.QtWidgets import (
     QApplication, QWidget, QLabel, QPushButton, QVBoxLayout, QHBoxLayout,
-    QInputDialog, QMessageBox, QMenu, QAction, QGraphicsDropShadowEffect,
+    QInputDialog, QMessageBox, QMenu, QGraphicsDropShadowEffect,
     QSystemTrayIcon, QButtonGroup, QScrollArea, QFrame
 )
-from PyQt5.QtCore import Qt, QTimer, QPoint, QRect, pyqtSignal
-from PyQt5.QtGui import QColor, QFont, QPainter, QCursor, QIcon, QPixmap, QPen, QBrush
+from PySide6.QtCore import Qt, QTimer, QPoint, QRect, Signal
+from PySide6.QtGui import QAction, QColor, QFont, QPainter, QCursor, QIcon, QPixmap, QPen, QBrush
 
 import websocket
 import json as _json
 
 # ---------------- 全局配置 ----------------
-__version__ = "0.1.0"
+__version__ = "0.2.0-dev"
 STALE_SECONDS = 30
 
 CONFIG_PATH = os.path.join(os.path.expanduser("~"), ".crypto_float_config.json")
@@ -112,13 +115,17 @@ def load_config():
         for coin in raw if isinstance(raw, list) else []:
             if not isinstance(coin, dict):
                 continue
+            try:
+                coin = restore_instrument(coin)
+            except (ValueError, TypeError, KeyError):
+                continue
             ex, sym = coin.get("exchange"), coin.get("symbol")
             if ex not in EXCHANGES or not isinstance(sym, str):
                 continue
             sym = sym.strip().upper()
             key = f"{ex}:{sym}"
             if re.fullmatch(r"[A-Z0-9]{1,24}", sym) and key not in seen:
-                coins.append({"exchange": ex, "symbol": sym})
+                coins.append(dict(coin, exchange=ex, symbol=sym))
                 seen.add(key)
         for coin in DEFAULT_COINS:
             if len(coins) >= MIN_COINS:
@@ -129,6 +136,13 @@ def load_config():
         valid = {f"{c['exchange']}:{c['symbol']}" for c in cfg["coins"]}
         alarms = []
         for alarm in cfg.get("alarms", []) if isinstance(cfg.get("alarms"), list) else []:
+            if isinstance(alarm, dict) and isinstance(alarm.get("instrument"), dict):
+                try:
+                    restored = restore_instrument(alarm["instrument"])
+                    alarm = dict(alarm, exchange=restored["exchange"], symbol=restored["symbol"],
+                                 key=f'{restored["exchange"]}:{restored["symbol"]}')
+                except (ValueError, KeyError, TypeError):
+                    continue
             if not isinstance(alarm, dict):
                 continue
             try:
@@ -149,6 +163,11 @@ def load_config():
 
 def save_config(cfg):
     clean = {k: v for k, v in cfg.items() if not k.startswith("_")}
+    if "coins" in clean:
+        clean["coins"] = [export_instrument(c) for c in clean["coins"]]
+    if "alarms" in clean:
+        clean["alarms"] = [dict(a, instrument=export_instrument(
+            {"exchange": a.get("exchange"), "symbol": a.get("symbol")})) for a in clean["alarms"]]
     temporary = None
     try:
         with tempfile.NamedTemporaryFile(mode="w", encoding="utf-8", delete=False,
@@ -451,6 +470,7 @@ EXCHANGES = {
     "bitget": BitgetExchange(),
 }
 EXCHANGE_ORDER = ["binance", "okx", "bitget"]
+install(globals())
 
 
 def make_tray_icon():
@@ -614,7 +634,7 @@ class MarketWorker(threading.Thread):
                         if self._ws:
                             self._ws.close()
                         return
-                    if self._opened and self.exchange.key in ("okx", "bitget") and now - heartbeat_at >= 15:
+                    if self._opened and self.exchange.key.split("|")[0] in ("okx", "bitget") and now - heartbeat_at >= 15:
                         try:
                             self._ws.send("ping")
                         except Exception:
@@ -768,8 +788,8 @@ class KlineChart(QWidget):
 
 
 class KlineWindow(QWidget):
-    klines_ready = pyqtSignal(int, str, list)
-    closed_signal = pyqtSignal(str)
+    klines_ready = Signal(int, str, list)
+    closed_signal = Signal(str)
 
     INTERVALS = ["1m", "5m", "15m", "1h", "4h", "1d"]
 
@@ -917,12 +937,12 @@ class KlineWindow(QWidget):
 
     def mousePressEvent(self, e):
         if e.button() == Qt.LeftButton:
-            self._drag = e.globalPos() - self.frameGeometry().topLeft()
+            self._drag = e.globalPosition().toPoint() - self.frameGeometry().topLeft()
             e.accept()
 
     def mouseMoveEvent(self, e):
         if self._drag is not None and e.buttons() & Qt.LeftButton:
-            self.move(e.globalPos() - self._drag)
+            self.move(e.globalPosition().toPoint() - self._drag)
             e.accept()
 
     def mouseReleaseEvent(self, e):
@@ -939,7 +959,7 @@ class KlineWindow(QWidget):
 
 # ---------------- 单行行情 ----------------
 class CoinRow(QWidget):
-    show_kline = pyqtSignal(object, str)   # exchange, symbol
+    show_kline = Signal(object, str)   # exchange, symbol
 
     def __init__(self, exchange, symbol, parent=None):
         super().__init__(parent)
@@ -960,7 +980,15 @@ class CoinRow(QWidget):
         lay.setContentsMargins(12, 0, 12, 0)
         lay.setSpacing(6)
 
-        self.sym_label = QLabel(self.symbol)
+        item = getattr(self.exchange, "instrument", None)
+        label = self.symbol
+        if item:
+            label += " S" if item.market == "spot" else " P"
+            if item.category in ("equity_derivative", "rwa_derivative"):
+                label += " ETF" if item.category == "equity_derivative" else " RWA"
+        self.sym_label = QLabel(label)
+        if item:
+            self.sym_label.setToolTip(f"{item.instrument_id} · {item.market_type} · Last Price · 合约报价，不是 ETF 现货；无新数据时标记过期")
         self.sym_label.setMinimumWidth(48)
 
         self.ex_label = QLabel(self.exchange.name)
@@ -1081,10 +1109,12 @@ class ResizeGrip(QLabel):
 
 # ---------------- 主浮窗 ----------------
 class CryptoFloat(QWidget):
-    ticker_signal = pyqtSignal(str, str, str, str, str)  # exchange_key, symbol, price, pct, chg
-    status_signal = pyqtSignal(str, str)                   # exchange_key, mode
-    coin_validated = pyqtSignal(str, str, bool)
-    refresh_done_signal = pyqtSignal(str)                  # 完成提示文案
+    ticker_signal = Signal(str, str, str, str, str)  # exchange_key, symbol, price, pct, chg
+    status_signal = Signal(str, str)                   # exchange_key, mode
+    migration_ready = Signal(object)
+    catalog_ready = Signal(object, str)
+    coin_validated = Signal(str, str, bool)
+    refresh_done_signal = Signal(str)                  # 完成提示文案
 
     def __init__(self):
         super().__init__()
@@ -1130,6 +1160,8 @@ class CryptoFloat(QWidget):
         self.alarm_timer.timeout.connect(self._check_alarms)
         self.alarm_timer.start(2000)
         self.coin_validated.connect(self._finish_add_coin)
+        self.catalog_ready.connect(self._show_catalog)
+        self.migration_ready.connect(self._apply_legacy_migration)
         self.status_timer = QTimer(self)
         self.status_timer.timeout.connect(self._render_status)
         self.status_timer.start(1000)
@@ -1477,7 +1509,7 @@ class CryptoFloat(QWidget):
         a_del = QAction("✕ 删除该标的", self)
         a_del.triggered.connect(lambda: self._remove_coin(key))
         menu.addAction(a_del)
-        menu.exec_(QCursor.pos())
+        menu.exec(QCursor.pos())
 
     def _remove_coin(self, key):
         if len(self.rows) <= MIN_COINS:
@@ -1502,6 +1534,51 @@ class CryptoFloat(QWidget):
             self.tray.showMessage("配置保存失败", "请检查用户目录写入权限；本次设置未保存。",
                                   QSystemTrayIcon.Warning, 4000)
 
+    def resolve_legacy_instruments(self):
+        legacy = [dict(c) for c in self.coins if "|" not in c["exchange"]]
+        if not legacy:
+            return
+        def resolve():
+            found = []
+            for exchange in {c["exchange"] for c in legacy}:
+                try:
+                    catalog = discover(exchange, "spot")
+                except Exception:
+                    continue  # Preserve offline legacy configuration without guessing IDs.
+                for coin in legacy:
+                    if coin["exchange"] == exchange:
+                        matches = [i for i in catalog if i.base.upper() == coin["symbol"].upper()]
+                        if len(matches) == 1:
+                            found.append((coin, matches[0]))
+            self.migration_ready.emit(found)
+        threading.Thread(target=resolve, daemon=True).start()
+
+    def _apply_legacy_migration(self, found):
+        if self._really_quitting:
+            return
+        changed = False
+        for old, item in found:
+            old_key = self._row_key(old["exchange"], old["symbol"])
+            if old_key not in self.rows:
+                continue
+            adapter = register_instrument(item)
+            new_key = self._row_key(adapter.key, item.base)
+            row = self.rows.pop(old_key)
+            row.setParent(None)
+            row.deleteLater()
+            self.coins = [c for c in self.coins if not
+                          (c["exchange"] == old["exchange"] and c["symbol"] == old["symbol"])]
+            for alarm in self.alarms:
+                if alarm["key"] == old_key:
+                    alarm.update(key=new_key, exchange=adapter.key, symbol=item.base)
+            if not any(c["exchange"] == adapter.key and c["symbol"] == item.base for c in self.coins):
+                self.coins.append(dict(exchange=adapter.key, symbol=item.base))
+            self._add_row(adapter.key, item.base, persist=False)
+            changed = True
+        if changed:
+            self._persist()
+            self._sync_workers()
+
     # ---------- 添加自选：先选交易所再搜标的 ----------
     def _on_add_coin(self):
         if not self.add_btn.isEnabled():
@@ -1509,33 +1586,49 @@ class CryptoFloat(QWidget):
         if len(self.rows) >= MAX_COINS:
             QMessageBox.information(self, "已达上限", f"最多同时展示 {MAX_COINS} 个标的，请先删除一些。")
             return
-        names = [f"{EXCHANGES[k].name}  ({k})" for k in EXCHANGE_ORDER]
-        chosen, ok = QInputDialog.getItem(
-            self, "添加自选 · 选择交易所", "数据来源：", names, 0, False
-        )
+        names = ["Binance", "OKX", "Bitget"]
+        name, ok = QInputDialog.getItem(self, "交易所", "选择交易所", names, 0, False)
         if not ok:
             return
-        idx = names.index(chosen)
-        ex_key = EXCHANGE_ORDER[idx]
-        ex = EXCHANGES[ex_key]
-        text, ok2 = QInputDialog.getText(
-            self, f"添加自选 · {ex.name}", "输入币种符号 (例如: BTC, ETH, SOL):"
-        )
-        if not ok2 or not text.strip():
+        exchange = EXCHANGE_ORDER[names.index(name)]
+        market, ok = QInputDialog.getItem(self, "市场", "选择市场", ["Spot", "Perpetual"], 0, False)
+        if not ok:
             return
-        sym = text.strip().upper()
-        if not re.fullmatch(r"[A-Z0-9]{1,24}", sym) or sym.endswith("USDT"):
-            QMessageBox.warning(self, "无效币种", "请输入基础币种符号，例如 BTC，不要输入 BTCUSDT。")
+        if exchange == "okx" and market == "Perpetual":
+            QMessageBox.information(self, "暂不可用", "OKX SWAP 尚未完成实网验证，本实验暂不开放。")
+            return
+        keyword, ok = QInputDialog.getText(self, "查找交易标的", "输入 BTC、ETH、SOXL 或原生合约 ID")
+        if not ok or not keyword.strip():
             return
         self.add_btn.setEnabled(False)
-        def validate():
-            result = ex.rest_ticker(sym)
+        def lookup():
             try:
-                valid = bool(result) and math.isfinite(float(result[0])) and float(result[0]) > 0
-            except (ValueError, TypeError):
-                valid = False
-            self.coin_validated.emit(ex_key, sym, valid)
-        threading.Thread(target=validate, daemon=True).start()
+                matches = search(discover(exchange, market.lower()), keyword)
+                self.catalog_ready.emit(matches, "")
+            except Exception as error:
+                self.catalog_ready.emit([], f"市场目录不可访问：{type(error).__name__}。请检查网络或地区限制。")
+        threading.Thread(target=lookup, daemon=True).start()
+
+    def _show_catalog(self, matches, error):
+        self.add_btn.setEnabled(True)
+        if self._really_quitting:
+            return
+        if error or not matches:
+            QMessageBox.information(self, "无法添加", error or "该市场没有可用的 USDT 交易标的，可能未上市或已暂停。")
+            return
+        labels = [instrument_label(i) for i in matches]
+        prompt = "— 请选择具体标的 —"
+        chosen, ok = QInputDialog.getItem(self, "选择真实交易标的", "合约显示 Last Price，不代表基础 ETF 现货成交", [prompt] + labels, 0, False)
+        if not ok or chosen not in labels or len(self.rows) >= MAX_COINS:
+            return
+        item = matches[labels.index(chosen)]
+        adapter = register_instrument(item)
+        legacy_duplicate = item.market == "spot" and self._row_key(item.exchange, item.base) in self.rows
+        if self._row_key(adapter.key, item.base) in self.rows or legacy_duplicate:
+            QMessageBox.information(self, "已存在", "该交易所和市场的标的已在自选中。")
+            return
+        self._add_row(adapter.key, item.base, persist=True)
+        self._sync_workers()
 
     def _finish_add_coin(self, ex_key, sym, valid):
         self.add_btn.setEnabled(True)
@@ -1826,29 +1919,29 @@ class CryptoFloat(QWidget):
 
     def mousePressEvent(self, e):
         if e.button() == Qt.LeftButton:
-            mode = self._edge_mode(e.pos())
+            mode = self._edge_mode(e.position().toPoint())
             if mode:
                 self._resizing = True
                 self._resize_mode = mode
-                self._resize_start_global = e.globalPos()
+                self._resize_start_global = e.globalPosition().toPoint()
                 self._resize_start_geom = QRect(self.geometry())
                 e.accept()
                 return
-            self._drag_offset = e.globalPos() - self.frameGeometry().topLeft()
+            self._drag_offset = e.globalPosition().toPoint() - self.frameGeometry().topLeft()
             e.accept()
 
     def mouseMoveEvent(self, e):
         if self._resizing and e.buttons() & Qt.LeftButton:
-            self._apply_resize(e.globalPos())
+            self._apply_resize(e.globalPosition().toPoint())
             e.accept()
             return
         if self._drag_offset is not None and e.buttons() & Qt.LeftButton:
-            self.move(e.globalPos() - self._drag_offset)
+            self.move(e.globalPosition().toPoint() - self._drag_offset)
             e.accept()
             return
         # 未按下按钮：根据边缘方向切换光标，直观提示可缩放方向
         if e.buttons() == Qt.NoButton:
-            mode = self._edge_mode(e.pos())
+            mode = self._edge_mode(e.position().toPoint())
             self.setCursor(self._cursor_for(mode))
 
     def _cursor_for(self, mode):
@@ -1914,7 +2007,8 @@ def main():
     app.setQuitOnLastWindowClosed(False)
     f = CryptoFloat()
     f.show()
-    sys.exit(app.exec_())
+    f.resolve_legacy_instruments()
+    sys.exit(app.exec())
 
 
 if __name__ == "__main__":
