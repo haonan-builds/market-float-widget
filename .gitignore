@@ -27,3 +27,13 @@ Thumbs.db
 *.pem
 *.key
 .screenshots/
+
+# Internal artifacts
+*.exe
+*.dll
+*.pyd
+*.whl
+*.zip
+*.log
+*.jsonl
+*-profile/

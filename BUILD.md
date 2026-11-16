@@ -1,17 +1,9 @@
-# Build v0.1.0-rc.1 on Windows x64
+# Development checks
 
-Use Windows x64 and CPython 3.12.0 to match the candidate. Run from the extracted source directory in PowerShell.
+Use the README Python 3.12 venv, then run from repository root:
 
-```powershell
-py -3.12 -m venv .venv
-.\.venv\Scripts\python.exe -m pip install -r requirements-build.txt
-.\.venv\Scripts\python.exe -m pip check
-.\.venv\Scripts\python.exe -m unittest discover -s tests -v
-.\.venv\Scripts\python.exe -m PyInstaller --clean --noconfirm crypto_float.spec
-Get-FileHash -Algorithm SHA256 .\dist\crypto_float.exe
-(Get-Item .\dist\crypto_float.exe).VersionInfo | Select-Object ProductVersion, FileVersion
-```
+    .\.venv\Scripts\python.exe -m pip install -r requirements-build.txt
+    .\.venv\Scripts\python.exe -m pip check
+    .\.venv\Scripts\python.exe -m unittest discover -s tests -v
 
-Expected metadata: ProductVersion `0.1.0-rc.1`, FileVersion `0.1.0.1`. The GUI still shows the application version `0.1.0`. The build is not claimed to be bit-for-bit reproducible.
-
-The candidate was built in the existing offline acceptance venv with the pinned requirements. Online installation using these commands on a fresh machine is a separate check. For public release, preserve the exact wheel hashes and matching dependency sources with the build inputs. See [Distribution](DISTRIBUTION.md).
+No current binary release spec is supplied. The historical PyQt5 spec and version metadata are archived. Internal packaging does not establish public distribution compliance.

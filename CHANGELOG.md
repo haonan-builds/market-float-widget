@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.2.0-dev — experimental
+
+- Move runtime source to PySide6 6.8.3.
+- Introduce exchange/market/native-ID routing and distinct TradFi/RWA categories.
+- Add Binance/Bitget perpetual catalog search, quotes, matching REST/candles and isolated alerts.
+- Resolve legacy Spot IDs and alerts in the background, preserving offline records.
+- Fix MU/XLMUSDT cross-boundary search, require explicit selection and readable market labels.
+- Retain project MIT; Windows binary publication remains NO-GO; overall functional acceptance pending.
+
+## Historical notes
+
+# Changelog
+
 ## 0.1.0 — pre-release repairs / 发布前修复
 
 - Verify TLS certificates and hostnames for WebSocket connections.
